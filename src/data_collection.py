@@ -4,7 +4,7 @@ import csv
 import time
 import os
 
-label = "rock"
+label = input("label : ")
 save_dir = "./data"
 os.makedirs(save_dir, exist_ok=True)
 
@@ -50,13 +50,11 @@ while True:
                 for lm in hand_landmarks.landmark:
                     row.extend([lm.x, lm.y, lm.z])
                 landmarks_data.append(row)
-
+            for lm in hand_landmarks.landmark:
+                    print(lm.x, lm.y, lm.z, end=' ')
+            print()
             # 화면에 그리기
-            mp_drawing.draw_landmarks(
-                frame, hand_landmarks, mp_hands.HAND_CONNECTIONS,
-                mp_drawing.DrawingSpec(color=(0,255,0), thickness=2, circle_radius=3),
-                mp_drawing.DrawingSpec(color=(0,128,255), thickness=2)
-            )
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
     cv2.putText(frame, display_text, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 

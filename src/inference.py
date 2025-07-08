@@ -17,6 +17,7 @@ model.load_weights("models/gesture_model.h5")
 
 # MediaPipe 및 웹캠 초기화
 mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands()
 sequence = []
 seq_len = 30
@@ -49,6 +50,8 @@ while True:
 
             if confidence > 0.7:
                 print(f"Predicted gesture: {class_names[class_id]} ({confidence:.2f})")
+        
+        mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
     cv2.imshow("Gesture Recognition", frame)
     if cv2.waitKey(1) & 0xFF == 27:
