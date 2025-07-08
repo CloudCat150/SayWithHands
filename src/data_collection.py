@@ -41,19 +41,37 @@ while True:
     elif recording:
         display_text = "Recording... Press 'q' to stop."
 
-    # 시각화
     if result.multi_hand_landmarks:
         for hand_landmarks in result.multi_hand_landmarks:
             if recording:
                 # 좌표 저장
+                wrist = hand_landmarks.landmark[0]
                 row = []
-                for lm in hand_landmarks.landmark:
-                    row.extend([lm.x, lm.y, lm.z])
+
+                # 손바닥 이동량을 포함 (이전 프레임과 비교)
+                if len(landmarks_data) > 0:
+                    prev_wrist = landmarks_data[-1][:3]
+                    move_dx = wrist.x - prev_wrist[0]
+                    move_dy = wrist.y - prev_wrist[1]
+                    move_dz = wrist.z - prev_wrist[2]
+                else:
+                    move_dx = move_dy = move_dz = 0.0
+
+                row.extend([move_dx, move_dy, move_dz])  # 3개 좌표 추가
+
+                # 나머지 20개 관절 좌표를 WRIST 기준 상대 좌표로
+                for i, lm in enumerate(hand_landmarks.landmark):
+                    if i == 0:  # WRIST 자체는 제외
+                        continue
+                    dx = lm.x - wrist.x
+                    dy = lm.y - wrist.y
+                    dz = lm.z - wrist.z
+                    row.extend([dx, dy, dz])
                 landmarks_data.append(row)
             for lm in hand_landmarks.landmark:
                     print(lm.x, lm.y, lm.z, end=' ')
             print()
-            # 화면에 그리기
+            # 시각화
             mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
     cv2.putText(frame, display_text, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
