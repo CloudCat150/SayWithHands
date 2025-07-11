@@ -17,6 +17,7 @@ landmarks_data = []
 recording = False
 countdown = False
 countdown_start = 0
+pause = False
 
 print("q 눌러서 녹화 시작/중지 (녹화 시작 전 3초 카운트다운)")
 
@@ -39,7 +40,9 @@ while True:
             recording = True
             display_text = "Recording..."
     elif recording:
-        display_text = "Recording... Press 'q' to stop."
+        display_text = "Recording... Press 'q' to stop or Press 'a' to pause"
+    elif not recording and pause:
+        display_text = "Pause Press 'a' to continue"
 
     if result.multi_hand_landmarks:
         for hand_landmarks in result.multi_hand_landmarks:
@@ -68,9 +71,10 @@ while True:
                     dz = lm.z - wrist.z
                     row.extend([dx, dy, dz])
                 landmarks_data.append(row)
-            for lm in hand_landmarks.landmark:
+            if recording:
+                for lm in hand_landmarks.landmark:
                     print(lm.x, lm.y, lm.z, end=' ')
-            print()
+                print()
             # 시각화
             mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
@@ -89,6 +93,13 @@ while True:
                 writer.writerows(landmarks_data)
             print(f"Data saved to {os.path.join(save_dir, f'{label}.csv')}")
             break
+    elif key == ord('a'):
+        if recording:
+            recording = False
+            pause = True
+        else:
+            recording = True
+            pause = False
     elif key == 27:
         break
 

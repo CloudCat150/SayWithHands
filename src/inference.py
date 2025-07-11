@@ -20,7 +20,7 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands()
 sequence = []
-seq_len = 30
+seq_len = 10
 
 cap = cv2.VideoCapture(0)
 
@@ -67,7 +67,7 @@ while True:
             class_id = np.argmax(pred)
             confidence = pred[0][class_id]
 
-            threshold = 0.7
+            threshold = 0.5
                 
             if confidence > threshold:
                 print(f"Predicted gesture: {class_names[class_id]} ({confidence:.2f})")

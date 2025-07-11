@@ -8,7 +8,7 @@ X, y, class_names = load_data("./data", seq_len=30)
 model = build_model(input_shape=(30, 63), num_classes=len(class_names))
 
 # 학습
-model.fit(X, y, epochs=200, batch_size=4)
+model.fit(X, y, epochs=300, batch_size=4)
 
 # 저장
 model.save("models/gesture_model.h5")
