@@ -40,7 +40,7 @@ while True:
             recording = True
             display_text = "Recording..."
     elif recording:
-        display_text = "Recording... Press 'q' to stop or Press 'a' to pause"
+        display_text = "Recording... Press 'q' to stop\n or Press 'a' to pause"
     elif not recording and pause:
         display_text = "Pause Press 'a' to continue"
 
