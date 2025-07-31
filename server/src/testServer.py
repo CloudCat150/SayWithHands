@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 # UDP: 영상 수신
 def udp_receiver():
@@ -21,13 +22,13 @@ def tcp_sender():
 
     while True:
         text = "서버에서 온 메시지입니다."
-        audio_data = open("sound.mp3", "rb").read()
+        # audio_data = open("sound.mp3", "rb").read()
 
         conn.send(len(text.encode()).to_bytes(4, 'big'))
         conn.send(text.encode())
 
-        conn.send(len(audio_data).to_bytes(4, 'big'))
-        conn.send(audio_data)
+        # conn.send(len(audio_data).to_bytes(4, 'big'))
+        # conn.send(audio_data)
 
         time.sleep(5)
 

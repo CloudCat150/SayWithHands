@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         previewView = findViewById(R.id.previewView)
         subtitleText = findViewById(R.id.subtitleText)
 
-        cameraStreamer = CameraStreamer(this, previewView, "172.30.1.26", 9999) // 서버 IP
+        cameraStreamer = CameraStreamer(this, previewView, "172.30.1.32", 9999) // 서버 IP
         cameraStreamer.startCamera()
 
-        tcpClient = TCPSocketClient("172.30.1.26", 8888) { text, audioFile ->
+        tcpClient = TCPSocketClient("172.30.1.32", 8888) { text, audioFile ->
             runOnUiThread {
                 subtitleText.text = text
                 tcpClient.playAudio(audioFile)
