@@ -8,7 +8,7 @@ def udp_receiver():
     sock.bind(("0.0.0.0", 9999))
     while True:
         data, addr = sock.recvfrom(65536)
-        with open("frame.jpg", "wb") as f:
+        with open("frames/frame.jpg", "wb") as f:
             f.write(data)
 
 # TCP: 텍스트 + mp3 전송
